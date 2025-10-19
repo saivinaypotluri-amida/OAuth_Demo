@@ -33,7 +33,19 @@ export const AuthProvider = ({ children }) => {
     localStorage.setItem('access_token', access_token)
     localStorage.setItem('refresh_token', refresh_token)
     
-    await checkAuth()
+    // Fetch user data with explicit token in headers
+    try {
+      const userResponse = await api.get('/auth/me', {
+        headers: {
+          'Authorization': `Bearer ${access_token}`
+        }
+      })
+      setUser(userResponse.data)
+    } catch (error) {
+      console.error('Failed to fetch user after login:', error)
+      // Still allow login to proceed
+    }
+    
     return response.data
   }
 
