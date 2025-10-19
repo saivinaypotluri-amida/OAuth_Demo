@@ -104,6 +104,7 @@ class GoogleWorkspaceService:
             return {
                 "success": False,
                 "error": str(e)
+            }
     
     async def upload_file_to_drive(
         self,
