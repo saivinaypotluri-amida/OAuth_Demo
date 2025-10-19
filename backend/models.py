@@ -69,7 +69,7 @@ class UsageStats(Base):
     tokens_used = Column(Integer, default=0)
     cost = Column(Float, default=0.0)
     execution_time_ms = Column(Float, nullable=True)
-    metadata = Column(JSON, nullable=True)
+    meta_info = Column(JSON, nullable=True)  # Renamed from 'metadata' to avoid SQLAlchemy reserved name
     created_at = Column(DateTime, default=datetime.utcnow)
     
     # Relationships

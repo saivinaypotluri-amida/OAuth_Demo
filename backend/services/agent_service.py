@@ -118,7 +118,7 @@ class AgentService:
             tokens_used=tokens_used,
             cost=tokens_used * 0.00002,  # Approximate cost
             execution_time_ms=execution_time_ms,
-            metadata={"channel_id": channel_id}
+            meta_info={"channel_id": channel_id}
         )
         self.db.add(usage_stat)
         
