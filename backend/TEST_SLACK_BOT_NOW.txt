@@ -1,0 +1,122 @@
+════════════════════════════════════════════════════════
+         🤖 HOW TO TEST SLACK CHATBOT
+════════════════════════════════════════════════════════
+
+OPTION 1: Test AI Chat (EASIEST) ⭐
+════════════════════════════════════════════════════════
+
+1. Configure Azure OpenAI first:
+   → Go to Settings
+   → Enter Azure OpenAI credentials
+   → Test connection
+
+2. Go to Messages page:
+   → http://localhost:3000/messages
+
+3. Chat with AI:
+   → Type: "Hello! What can you do?"
+   → Click Send
+   → AI responds! ✅
+
+4. View history and token usage
+
+✅ This tests full AI functionality!
+
+════════════════════════════════════════════════════════
+
+OPTION 2: Test Slack Connection
+════════════════════════════════════════════════════════
+
+1. Get Slack credentials:
+   → Go to: https://api.slack.com/apps
+   → Create app (or select existing)
+   → Install to workspace
+   → Copy Bot Token (xoxb-...)
+   → Copy Signing Secret
+
+2. Configure in Settings:
+   → http://localhost:3000/settings
+   → Slack Configuration section
+   → Paste Bot Token
+   → Paste Signing Secret
+   → Click "Save Credentials"
+
+3. Test connection:
+   → Click "Test Connection"
+   → Should show: ✅ "Connected to workspace: [Name]"
+
+✅ This verifies Slack credentials work!
+
+════════════════════════════════════════════════════════
+
+OPTION 3: Test via API (Advanced)
+════════════════════════════════════════════════════════
+
+1. Go to: http://localhost:8000/docs
+
+2. Click "Authorize" (top right)
+   → Enter your access token
+   → Click "Authorize"
+
+3. Find: POST /api/agent/message
+
+4. Click "Try it out"
+
+5. Enter:
+   {
+     "message": "Tell me a joke",
+     "channel_id": "test"
+   }
+
+6. Click "Execute"
+
+7. See AI response ✅
+
+════════════════════════════════════════════════════════
+
+📊 WHAT EACH METHOD TESTS
+════════════════════════════════════════════════════════
+
+Messages Page:
+  ✅ AI responses
+  ✅ Message storage
+  ✅ Token tracking
+  ✅ History
+  ✅ Full chatbot functionality
+
+Slack Test Connection:
+  ✅ Slack credentials valid
+  ✅ Bot installed
+  ✅ Can authenticate
+
+API Testing:
+  ✅ Backend endpoints
+  ✅ AI integration
+  ✅ Database storage
+
+════════════════════════════════════════════════════════
+
+🎯 RECOMMENDED: Start with Messages Page
+════════════════════════════════════════════════════════
+
+It's the easiest and tests everything!
+
+1. Ensure Azure OpenAI is configured
+2. Go to Messages
+3. Chat with AI
+4. Works immediately! ✨
+
+════════════════════════════════════════════════════════
+
+🚀 WANT SLACK CHANNEL RESPONSES?
+════════════════════════════════════════════════════════
+
+Let me know and I can add:
+  → Slack event handler
+  → Real-time responses in Slack channels
+  → Bot mentions support
+  → DM support
+
+For now, Messages page gives you full chatbot! 🎉
+
+════════════════════════════════════════════════════════
