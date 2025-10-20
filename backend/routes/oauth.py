@@ -67,16 +67,13 @@ async def google_authorize(
     
     flow.redirect_uri = redirect_uri
     
-    # Generate authorization URL
+    # Generate authorization URL with user_id as state
     authorization_url, state = flow.authorization_url(
         access_type='offline',
         include_granted_scopes='true',
-        prompt='consent'
+        prompt='consent',
+        state=str(current_user.id)  # Pass user_id as state parameter
     )
-    
-    # Store state in session (you might want to use a more secure method)
-    # For now, we'll pass it in the URL
-    authorization_url += f"&state={current_user.id}"
     
     return {
         "authorization_url": authorization_url,

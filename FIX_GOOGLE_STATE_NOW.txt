@@ -1,0 +1,60 @@
+════════════════════════════════════════════════════════
+   ✅ FIXED: Google OAuth "state" Error
+════════════════════════════════════════════════════════
+
+ERROR: "OAuth 2 parameters can only have a single value: state"
+
+CAUSE: State parameter was added twice
+
+FIX: Pass state properly to OAuth library
+
+════════════════════════════════════════════════════════
+         🔄 RESTART BACKEND NOW
+════════════════════════════════════════════════════════
+
+In your BACKEND terminal:
+
+1. Press CTRL+C
+
+2. Run: python main.py
+
+════════════════════════════════════════════════════════
+         🧪 TRY GOOGLE OAUTH AGAIN
+════════════════════════════════════════════════════════
+
+1. Go to: http://localhost:3000/settings
+
+2. Make sure "Google OAuth Configuration" is saved:
+   - Client ID
+   - Client Secret
+   - If not saved, save them first
+
+3. Scroll to "Google Workspace Connection"
+
+4. Click: "Connect Google Workspace"
+
+5. Should redirect to Google (no error!) ✅
+
+6. Click "Allow"
+
+7. Redirected back to your app ✅
+
+8. Status: "Connected" ✅
+
+════════════════════════════════════════════════════════
+              ✅ EXPECTED RESULT
+════════════════════════════════════════════════════════
+
+✅ No "state" error
+✅ Google OAuth page loads
+✅ Shows permissions for Drive & Docs
+✅ After allowing, returns to app
+✅ Shows "Connected" status
+✅ Test connection works
+✅ Can save summaries to Google Drive
+
+════════════════════════════════════════════════════════
+
+📚 For details: GOOGLE_OAUTH_STATE_FIX.md
+
+════════════════════════════════════════════════════════
