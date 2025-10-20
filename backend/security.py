@@ -8,10 +8,13 @@ from sqlalchemy.orm import Session
 from cryptography.fernet import Fernet
 import json
 import base64
+import logging
 from config import settings
 from database import get_db
 from models import User
 from schemas import TokenData
+
+logger = logging.getLogger(__name__)
 
 # Password hashing
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
@@ -77,16 +80,31 @@ def verify_token(token: str, token_type: str = "access") -> TokenData:
     
     try:
         payload = jwt.decode(token, settings.jwt_secret_key, algorithms=[settings.jwt_algorithm])
-        user_id: int = payload.get("sub")
+        user_id_str: str = payload.get("sub")
         role: str = payload.get("role")
         token_type_in_payload: str = payload.get("type")
         
-        if user_id is None or token_type_in_payload != token_type:
+        logger.debug(f"Token payload: sub={user_id_str}, role={role}, type={token_type_in_payload}")
+        
+        # Convert user_id from string to int (JWT standard uses string for sub)
+        if user_id_str is None:
+            logger.error("Token missing 'sub' field")
+            raise credentials_exception
+        
+        try:
+            user_id = int(user_id_str)
+        except (ValueError, TypeError) as e:
+            logger.error(f"Invalid user_id in token: {user_id_str}, error: {e}")
+            raise credentials_exception
+        
+        if token_type_in_payload != token_type:
+            logger.error(f"Token type mismatch: expected {token_type}, got {token_type_in_payload}")
             raise credentials_exception
         
         token_data = TokenData(user_id=user_id, role=role)
         return token_data
-    except JWTError:
+    except JWTError as e:
+        logger.error(f"JWT decode error: {e}")
         raise credentials_exception
 
 
@@ -111,12 +129,24 @@ async def get_current_user(token: str = Depends(oauth2_scheme), db: Session = De
         headers={"WWW-Authenticate": "Bearer"},
     )
     
-    token_data = verify_token(token)
-    user = db.query(User).filter(User.id == token_data.user_id).first()
-    
-    if user is None or not user.is_active:
+    try:
+        token_data = verify_token(token)
+        logger.debug(f"Token verified for user_id: {token_data.user_id}")
+    except Exception as e:
+        logger.error(f"Token verification failed: {e}")
         raise credentials_exception
     
+    user = db.query(User).filter(User.id == token_data.user_id).first()
+    
+    if user is None:
+        logger.error(f"User not found with id: {token_data.user_id}")
+        raise credentials_exception
+    
+    if not user.is_active:
+        logger.error(f"User {token_data.user_id} is not active")
+        raise credentials_exception
+    
+    logger.debug(f"User authenticated successfully: {user.username}")
     return user
 
 

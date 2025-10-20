@@ -90,9 +90,9 @@ async def login(login_data: LoginRequest, db: Session = Depends(get_db)):
             detail="User account is inactive"
         )
     
-    # Create tokens
-    access_token = create_access_token(data={"sub": user.id, "role": user.role})
-    refresh_token = create_refresh_token(data={"sub": user.id, "role": user.role})
+    # Create tokens (sub must be string as per JWT standard)
+    access_token = create_access_token(data={"sub": str(user.id), "role": user.role})
+    refresh_token = create_refresh_token(data={"sub": str(user.id), "role": user.role})
     
     # Log successful login
     audit_log = AuditLog(
