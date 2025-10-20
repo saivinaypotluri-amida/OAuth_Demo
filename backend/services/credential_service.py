@@ -114,6 +114,37 @@ class CredentialService:
                 google_service = GoogleWorkspaceService(creds)
                 result = await google_service.test_connection()
             
+            elif service_type == "google_oauth":
+                # Validate Google OAuth credentials format
+                client_id = creds.get("client_id", "")
+                client_secret = creds.get("client_secret", "")
+                redirect_uri = creds.get("redirect_uri", "")
+                
+                if not client_id or not client_secret:
+                    result = {
+                        "status": "failed",
+                        "message": "Client ID and Client Secret are required"
+                    }
+                elif not client_id.endswith(".apps.googleusercontent.com"):
+                    result = {
+                        "status": "failed",
+                        "message": "Invalid Client ID format. Should end with .apps.googleusercontent.com"
+                    }
+                elif not client_secret.startswith("GOCSPX-"):
+                    result = {
+                        "status": "failed",
+                        "message": "Invalid Client Secret format. Should start with GOCSPX-"
+                    }
+                else:
+                    result = {
+                        "status": "success",
+                        "message": "Google OAuth credentials saved. Click 'Connect Google Workspace' to authorize.",
+                        "details": {
+                            "client_id": client_id,
+                            "redirect_uri": redirect_uri
+                        }
+                    }
+            
             else:
                 result = {
                     "status": "failed",

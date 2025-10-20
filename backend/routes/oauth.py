@@ -26,27 +26,46 @@ async def google_authorize(
     db: Session = Depends(get_db)
 ):
     """Initiate Google OAuth flow"""
-    if not settings.google_client_id or not settings.google_client_secret:
+    # Get Google OAuth credentials from user's stored credentials
+    from services.credential_service import CredentialService
+    
+    google_oauth_creds = await CredentialService.get_credential(
+        db=db,
+        user_id=current_user.id,
+        service_type="google_oauth"
+    )
+    
+    if not google_oauth_creds:
         raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Google OAuth not configured. Please set up Google credentials in the admin panel."
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Please configure Google OAuth credentials in Settings first"
         )
     
-    # Create flow instance
+    client_id = google_oauth_creds.get("client_id")
+    client_secret = google_oauth_creds.get("client_secret")
+    redirect_uri = google_oauth_creds.get("redirect_uri", "http://localhost:8000/api/oauth/google/callback")
+    
+    if not client_id or not client_secret:
+        raise HTTPException(
+            status_code=status.HTTP_400_BAD_REQUEST,
+            detail="Google OAuth credentials are incomplete"
+        )
+    
+    # Create flow instance with user's credentials
     flow = Flow.from_client_config(
         {
             "web": {
-                "client_id": settings.google_client_id,
-                "client_secret": settings.google_client_secret,
+                "client_id": client_id,
+                "client_secret": client_secret,
                 "auth_uri": "https://accounts.google.com/o/oauth2/auth",
                 "token_uri": "https://oauth2.googleapis.com/token",
-                "redirect_uris": [settings.google_redirect_uri]
+                "redirect_uris": [redirect_uri]
             }
         },
         scopes=SCOPES
     )
     
-    flow.redirect_uri = settings.google_redirect_uri
+    flow.redirect_uri = redirect_uri
     
     # Generate authorization URL
     authorization_url, state = flow.authorization_url(
@@ -72,35 +91,8 @@ async def google_callback(
     db: Session = Depends(get_db)
 ):
     """Handle Google OAuth callback"""
-    if not settings.google_client_id or not settings.google_client_secret:
-        raise HTTPException(
-            status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
-            detail="Google OAuth not configured"
-        )
-    
     try:
-        # Create flow instance
-        flow = Flow.from_client_config(
-            {
-                "web": {
-                    "client_id": settings.google_client_id,
-                    "client_secret": settings.google_client_secret,
-                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-                    "token_uri": "https://oauth2.googleapis.com/token",
-                    "redirect_uris": [settings.google_redirect_uri]
-                }
-            },
-            scopes=SCOPES
-        )
-        
-        flow.redirect_uri = settings.google_redirect_uri
-        
-        # Exchange code for token
-        flow.fetch_token(code=code)
-        
-        credentials = flow.credentials
-        
-        # Extract user_id from state (in production, use proper session management)
+        # Extract user_id from state
         user_id = int(state) if state else None
         
         if not user_id:
@@ -108,6 +100,46 @@ async def google_callback(
                 status_code=status.HTTP_400_BAD_REQUEST,
                 detail="Invalid state parameter"
             )
+        
+        # Get Google OAuth credentials from user's stored credentials
+        from services.credential_service import CredentialService
+        
+        google_oauth_creds = await CredentialService.get_credential(
+            db=db,
+            user_id=user_id,
+            service_type="google_oauth"
+        )
+        
+        if not google_oauth_creds:
+            raise HTTPException(
+                status_code=status.HTTP_400_BAD_REQUEST,
+                detail="Google OAuth credentials not found"
+            )
+        
+        client_id = google_oauth_creds.get("client_id")
+        client_secret = google_oauth_creds.get("client_secret")
+        redirect_uri = google_oauth_creds.get("redirect_uri", "http://localhost:8000/api/oauth/google/callback")
+        
+        # Create flow instance with user's credentials
+        flow = Flow.from_client_config(
+            {
+                "web": {
+                    "client_id": client_id,
+                    "client_secret": client_secret,
+                    "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+                    "token_uri": "https://oauth2.googleapis.com/token",
+                    "redirect_uris": [redirect_uri]
+                }
+            },
+            scopes=SCOPES
+        )
+        
+        flow.redirect_uri = redirect_uri
+        
+        # Exchange code for token
+        flow.fetch_token(code=code)
+        
+        credentials = flow.credentials
         
         # Store credentials
         creds_dict = {

@@ -248,23 +248,101 @@ const Settings = () => {
         </form>
       </div>
 
-      {/* Google Workspace Configuration */}
+      {/* Google OAuth Configuration */}
       <div className="bg-white rounded-xl shadow p-6">
         <div className="flex items-center justify-between mb-4">
-          <h2 className="text-xl font-semibold text-gray-900">Google Workspace Configuration</h2>
+          <h2 className="text-xl font-semibold text-gray-900">Google OAuth Configuration</h2>
+          {credentials.google_oauth && (
+            <StatusBadge status={credentials.google_oauth.test_status} />
+          )}
+        </div>
+
+        <p className="text-sm text-gray-600 mb-4">
+          Configure your Google OAuth app credentials. Get these from Google Cloud Console.
+        </p>
+
+        <form onSubmit={(e) => {
+          e.preventDefault()
+          const formData = new FormData(e.target)
+          handleSaveCredential('google_oauth', {
+            client_id: formData.get('google_client_id'),
+            client_secret: formData.get('google_client_secret'),
+            redirect_uri: formData.get('google_redirect_uri')
+          })
+        }}>
+          <div className="space-y-4">
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Client ID
+              </label>
+              <input
+                type="text"
+                name="google_client_id"
+                placeholder="123456789-abc.apps.googleusercontent.com"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                From Google Cloud Console → APIs & Services → Credentials
+              </p>
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Client Secret
+              </label>
+              <input
+                type="password"
+                name="google_client_secret"
+                placeholder="GOCSPX-your-secret"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+            </div>
+            <div>
+              <label className="block text-sm font-medium text-gray-700 mb-1">
+                Redirect URI
+              </label>
+              <input
+                type="text"
+                name="google_redirect_uri"
+                defaultValue="http://localhost:8000/api/oauth/google/callback"
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+              />
+              <p className="mt-1 text-xs text-gray-500">
+                Must match the redirect URI in your Google OAuth app
+              </p>
+            </div>
+          </div>
+
+          <div className="mt-4 flex gap-3">
+            <button
+              type="submit"
+              disabled={saving.google_oauth}
+              className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 flex items-center"
+            >
+              {saving.google_oauth && <Loader2 className="animate-spin mr-2 h-4 w-4" />}
+              Save OAuth Credentials
+            </button>
+          </div>
+        </form>
+      </div>
+
+      {/* Google Workspace Connection */}
+      <div className="bg-white rounded-xl shadow p-6">
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-semibold text-gray-900">Google Workspace Connection</h2>
           {credentials.google_workspace && (
             <StatusBadge status={credentials.google_workspace.test_status} />
           )}
         </div>
 
         <p className="text-sm text-gray-600 mb-4">
-          Connect your Google Workspace account to save summaries to Google Drive.
+          After saving OAuth credentials above, click here to connect your Google account.
         </p>
 
         <div className="flex gap-3">
           <button
             onClick={handleGoogleOAuth}
-            className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 flex items-center"
+            disabled={!credentials.google_oauth}
+            className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed flex items-center"
           >
             {credentials.google_workspace ? 'Reconnect' : 'Connect'} Google Workspace
           </button>
@@ -279,6 +357,12 @@ const Settings = () => {
             </button>
           )}
         </div>
+        
+        {!credentials.google_oauth && (
+          <p className="mt-3 text-sm text-yellow-600">
+            ⚠️ Please configure Google OAuth credentials above first
+          </p>
+        )}
       </div>
     </div>
   )

@@ -19,7 +19,7 @@ async def create_credential(
 ):
     """Create or update credentials for a service"""
     # Validate service type
-    valid_services = ["slack", "azure_openai", "google_workspace"]
+    valid_services = ["slack", "azure_openai", "google_workspace", "google_oauth"]
     if credential_data.service_type not in valid_services:
         raise HTTPException(
             status_code=status.HTTP_400_BAD_REQUEST,
