@@ -64,13 +64,14 @@ async def health_check():
 
 
 # Import and include routers
-from routes import auth, credentials, agent, admin, oauth
+from routes import auth, credentials, agent, admin, oauth, slack_events
 
 app.include_router(auth.router)
 app.include_router(credentials.router)
 app.include_router(agent.router)
 app.include_router(admin.router)
 app.include_router(oauth.router)
+app.include_router(slack_events.router)
 
 
 # Root endpoint

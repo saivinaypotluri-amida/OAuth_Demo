@@ -1,0 +1,107 @@
+════════════════════════════════════════════════════════
+    🤖 SLACK BOT REAL-TIME - QUICK START
+════════════════════════════════════════════════════════
+
+✅ Event handler code already added!
+Just need to configure and test.
+
+════════════════════════════════════════════════════════
+         STEP 1: RESTART BACKEND
+════════════════════════════════════════════════════════
+
+In backend terminal:
+  Press CTRL+C
+  Run: python main.py
+
+════════════════════════════════════════════════════════
+         STEP 2: INSTALL & RUN NGROK
+════════════════════════════════════════════════════════
+
+Download: https://ngrok.com/download
+
+Or install:
+  npm install -g ngrok
+
+Run in NEW terminal:
+  ngrok http 8000
+
+Copy the HTTPS URL:
+  https://abc123.ngrok.io
+
+════════════════════════════════════════════════════════
+         STEP 3: CONFIGURE SLACK APP
+════════════════════════════════════════════════════════
+
+1. Go to: https://api.slack.com/apps
+
+2. Select your app (or create one)
+
+3. Click "Event Subscriptions"
+
+4. Toggle ON
+
+5. Request URL:
+   https://YOUR_NGROK_URL.ngrok.io/api/slack/events
+
+6. Wait for ✅ "Verified"
+
+7. Add Bot Events:
+   - message.channels
+   - message.im
+   - app_mention
+
+8. Save Changes → Reinstall app
+
+════════════════════════════════════════════════════════
+         STEP 4: TEST IN SLACK
+════════════════════════════════════════════════════════
+
+1. In Slack, add bot to channel:
+   /invite @YourBot
+
+2. Send message:
+   "Hello bot!"
+
+3. Bot responds automatically! ✅
+
+════════════════════════════════════════════════════════
+         ALTERNATIVE: TEST VIA PORTAL
+════════════════════════════════════════════════════════
+
+No ngrok needed for this:
+
+1. Go to: http://localhost:3000/messages
+
+2. Type message and send
+
+3. AI responds! ✅
+
+This tests the AI without Slack event setup.
+
+════════════════════════════════════════════════════════
+         WHAT EACH METHOD TESTS
+════════════════════════════════════════════════════════
+
+Portal Messages:
+  ✅ AI responses
+  ✅ Token tracking
+  ✅ History
+  ✅ NO Slack setup needed
+
+Real-time Slack:
+  ✅ Bot in channels
+  ✅ Auto-responses
+  ✅ Mentions
+  ✅ DMs
+  ✅ Requires ngrok + Slack config
+
+════════════════════════════════════════════════════════
+
+🎯 RECOMMENDED FOR QUICK TEST:
+
+Use Portal Messages page - works immediately!
+
+For real Slack channel responses:
+  Follow SLACK_REALTIME_SETUP.md
+
+════════════════════════════════════════════════════════
