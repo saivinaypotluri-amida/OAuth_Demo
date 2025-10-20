@@ -30,7 +30,7 @@ const Settings = () => {
     setMessage(null)
 
     try {
-      await api.post('/credentials', {
+      await api.post('/credentials/', {
         service_type: serviceType,
         credentials: credData
       })
