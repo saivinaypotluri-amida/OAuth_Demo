@@ -1,0 +1,105 @@
+════════════════════════════════════════════════════════
+   🔧 QUICK FIX: Google Workspace Connection
+════════════════════════════════════════════════════════
+
+ERROR: 500 Internal Server Error
+REASON: Google OAuth credentials not configured
+
+════════════════════════════════════════════════════════
+         ⚡ QUICK SETUP (5 minutes)
+════════════════════════════════════════════════════════
+
+STEP 1: Get Google Credentials
+────────────────────────────────────────────────────────
+1. Go to: https://console.cloud.google.com/
+
+2. Create project or select existing one
+
+3. Enable APIs:
+   → Google Drive API
+   → Google Docs API
+
+4. Go to: "APIs & Services" → "Credentials"
+
+5. Click: "+ CREATE CREDENTIALS" → "OAuth client ID"
+
+6. If prompted, configure OAuth consent screen:
+   - External
+   - Add your email
+   - Add scopes for Drive and Docs
+
+7. Application type: "Web application"
+
+8. Add redirect URI:
+   http://localhost:8000/api/oauth/google/callback
+
+9. Copy:
+   - Client ID (looks like: xxx.apps.googleusercontent.com)
+   - Client Secret (looks like: GOCSPX-xxx)
+
+════════════════════════════════════════════════════════
+STEP 2: Update .env File
+────────────────────────────────────────────────────────
+
+1. Open: backend/.env
+
+2. Add these lines:
+
+   GOOGLE_CLIENT_ID=your-client-id.apps.googleusercontent.com
+   GOOGLE_CLIENT_SECRET=GOCSPX-your-secret
+   GOOGLE_REDIRECT_URI=http://localhost:8000/api/oauth/google/callback
+
+3. Replace with YOUR actual values
+
+4. Save the file
+
+════════════════════════════════════════════════════════
+STEP 3: Restart Backend
+────────────────────────────────────────────────────────
+
+In backend terminal:
+   Press CTRL+C
+   Run: python main.py
+
+════════════════════════════════════════════════════════
+STEP 4: Test Connection
+────────────────────════════════════════════════════════
+
+1. Go to: http://localhost:3000/settings
+
+2. Click: "Connect Google Workspace"
+
+3. Allow permissions in Google popup
+
+4. You'll be redirected back
+
+5. Connection status: "Connected" ✅
+
+════════════════════════════════════════════════════════
+         ✅ EXPECTED RESULT
+════════════════════════════════════════════════════════
+
+✅ No more 500 error
+✅ Redirects to Google OAuth
+✅ Returns to your app
+✅ Shows "Connected" status
+✅ Test connection works
+
+════════════════════════════════════════════════════════
+       🐛 COMMON ISSUES
+════════════════════════════════════════════════════════
+
+Issue: Still 500 error
+Fix: Make sure backend was restarted after .env update
+
+Issue: Redirect URI mismatch
+Fix: Check redirect URI in Google Console matches exactly
+
+Issue: App not verified warning
+Fix: Click "Advanced" → "Go to app (unsafe)" (normal in dev)
+
+════════════════════════════════════════════════════════
+
+📚 For detailed guide, see: GOOGLE_OAUTH_SETUP.md
+
+════════════════════════════════════════════════════════
