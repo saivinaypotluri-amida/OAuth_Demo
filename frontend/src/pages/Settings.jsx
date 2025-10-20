@@ -14,7 +14,7 @@ const Settings = () => {
 
   const fetchCredentials = async () => {
     try {
-      const response = await api.get('/credentials')
+      const response = await api.get('/credentials/')
       const credsMap = {}
       response.data.forEach(cred => {
         credsMap[cred.service_type] = cred

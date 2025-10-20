@@ -22,7 +22,7 @@ const Dashboard = () => {
       const [messagesRes, summariesRes, credentialsRes] = await Promise.all([
         api.get('/agent/messages?limit=1'),
         api.get('/agent/summaries?limit=1'),
-        api.get('/credentials'),
+        api.get('/credentials/'),
       ])
 
       // Get counts from headers or calculate
