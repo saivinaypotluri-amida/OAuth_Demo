@@ -1,0 +1,94 @@
+════════════════════════════════════════════════════════
+   ✅ GOOGLE OAUTH NOW WORKS LIKE SLACK & AZURE!
+════════════════════════════════════════════════════════
+
+WHAT CHANGED:
+  ✅ No more .env file configuration needed
+  ✅ Configure Google OAuth in Settings UI
+  ✅ Same workflow as Slack and Azure OpenAI
+  ✅ Each user can use their own Google account
+
+════════════════════════════════════════════════════════
+         🔄 RESTART BACKEND & FRONTEND
+════════════════════════════════════════════════════════
+
+BACKEND:
+  In backend terminal:
+  Press CTRL+C
+  Run: python main.py
+
+FRONTEND:
+  In frontend terminal:
+  Press CTRL+C
+  Run: npm run dev
+
+════════════════════════════════════════════════════════
+         📋 HOW TO CONNECT (3 SIMPLE STEPS)
+════════════════════════════════════════════════════════
+
+STEP 1: Get Google Credentials
+────────────────────────────────
+1. Go to: https://console.cloud.google.com/
+2. Create project (or select existing)
+3. Enable: Google Drive API & Google Docs API
+4. Create OAuth Client ID (Web application)
+5. Redirect URI: http://localhost:8000/api/oauth/google/callback
+6. Copy: Client ID & Client Secret
+
+STEP 2: Configure in Settings
+────────────────────────────────
+1. Go to: http://localhost:3000/settings
+2. Find: "Google OAuth Configuration"
+3. Enter:
+   - Client ID (ends with .apps.googleusercontent.com)
+   - Client Secret (starts with GOCSPX-)
+   - Redirect URI (pre-filled)
+4. Click: "Save OAuth Credentials"
+
+STEP 3: Connect Google Account
+────────────────────────────────
+1. In Settings, find: "Google Workspace Connection"
+2. Click: "Connect Google Workspace"
+3. Authorize in Google popup
+4. Done! ✅
+
+════════════════════════════════════════════════════════
+              ✅ WHAT YOU'LL SEE
+════════════════════════════════════════════════════════
+
+Settings UI will have TWO sections:
+
+┌─────────────────────────────────────────────────┐
+│ Google OAuth Configuration                      │
+│                                                  │
+│ Client ID: [___________________________]        │
+│ Client Secret: [______________________]         │
+│ Redirect URI: [________________________]        │
+│                                                  │
+│ [Save OAuth Credentials]                        │
+└─────────────────────────────────────────────────┘
+
+┌─────────────────────────────────────────────────┐
+│ Google Workspace Connection                     │
+│                                                  │
+│ Status: Connected ✅                            │
+│                                                  │
+│ [Connect Google Workspace] [Test Connection]   │
+└─────────────────────────────────────────────────┘
+
+════════════════════════════════════════════════════════
+           🎯 BENEFITS OF NEW APPROACH
+════════════════════════════════════════════════════════
+
+✅ Consistent with Slack & Azure OpenAI
+✅ No .env file editing required
+✅ Multi-user support (each user their own creds)
+✅ Easy to reconfigure
+✅ Secure database storage
+✅ Test credentials before connecting
+
+════════════════════════════════════════════════════════
+
+📚 Full guide: GOOGLE_SETUP_NEW.md
+
+════════════════════════════════════════════════════════

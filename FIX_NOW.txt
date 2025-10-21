@@ -1,0 +1,47 @@
+════════════════════════════════════════════════════════
+   ⚠️  BCRYPT VERSION ISSUE - QUICK FIX NEEDED
+════════════════════════════════════════════════════════
+
+PROBLEM: bcrypt 4.x is incompatible with passlib 1.7.4
+
+SOLUTION: Downgrade to bcrypt 3.2.2
+
+════════════════════════════════════════════════════════
+              🔧 FIX IT NOW (30 seconds)
+════════════════════════════════════════════════════════
+
+1. STOP your backend (press CTRL+C)
+
+2. RUN these commands:
+
+   pip uninstall bcrypt -y
+   pip install bcrypt==3.2.2
+
+3. START backend again:
+
+   python main.py
+
+════════════════════════════════════════════════════════
+              ⚡ ONE-LINE FIX (Copy/Paste)
+════════════════════════════════════════════════════════
+
+After stopping backend (CTRL+C), run:
+
+pip uninstall bcrypt -y && pip install bcrypt==3.2.2 && python main.py
+
+════════════════════════════════════════════════════════
+
+✅ AFTER THE FIX:
+   - No more bcrypt warnings
+   - Signup works with any password
+   - Application fully functional
+
+════════════════════════════════════════════════════════
+
+💡 ALTERNATIVE (Temporary):
+   Use a password under 72 characters for now
+   Example: "MySecurePassword123!"
+
+   But downgrading bcrypt is the proper fix.
+
+════════════════════════════════════════════════════════

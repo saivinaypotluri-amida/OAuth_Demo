@@ -1,0 +1,210 @@
+════════════════════════════════════════════════════════
+       📝 SUMMARY GENERATION - QUICK START
+════════════════════════════════════════════════════════
+
+Two ways to generate AI summaries + save to Google Drive:
+
+════════════════════════════════════════════════════════
+         METHOD 1: WEB PORTAL (EASIEST) ⭐
+════════════════════════════════════════════════════════
+
+1. Go to: http://localhost:3000/messages
+
+2. Click "Generate Summary" (green button top-right)
+
+3. Fill in:
+   Title: "My Summary" (optional)
+   Content: [Paste your long text] (min 50 chars)
+
+4. Click "Generate & Save to Drive"
+
+5. Results:
+   ✅ AI summary displayed
+   ✅ Saved to Google Drive
+   ✅ Link to open document
+   ✅ Tokens used shown
+
+════════════════════════════════════════════════════════
+         METHOD 2: IN SLACK
+════════════════════════════════════════════════════════
+
+Option A - Direct in Channel:
+  
+  summarize: [your long text here]
+
+Option B - Mention Bot:
+  
+  @YourBot summarize: [your long text here]
+
+Bot Responds:
+  📝 Summary Generated
+  
+  [AI-generated summary text]
+  
+  📁 Saved to Google Drive: [link]
+
+════════════════════════════════════════════════════════
+         ALTERNATIVE KEYWORDS IN SLACK
+════════════════════════════════════════════════════════
+
+All these work:
+  • summarize: [text]
+  • summary: [text]
+  • summarise: [text]
+  • tldr: [text]
+  • tl;dr: [text]
+
+════════════════════════════════════════════════════════
+         EXAMPLE: WEB PORTAL
+════════════════════════════════════════════════════════
+
+1. Messages → "Generate Summary"
+
+2. Title: "Team Meeting Notes"
+
+3. Content:
+   "Our weekly team meeting covered multiple topics.
+   We reviewed sprint progress (85% complete), discussed
+   authentication blockers that John will resolve, and
+   learned marketing increased signups by 32%. Product
+   launch next month requires marketing materials, QA
+   testing, and customer demos by Friday."
+
+4. Click "Generate & Save to Drive"
+
+5. Result:
+   "Sprint is 85% complete with authentication blockers.
+   Marketing campaign increased signups 32%. Product
+   launch next month requires materials, testing, and
+   demos by Friday."
+   
+   + Link to Google Drive document ✅
+
+════════════════════════════════════════════════════════
+         EXAMPLE: SLACK
+════════════════════════════════════════════════════════
+
+In Slack channel:
+
+  summarize: Artificial intelligence is transforming
+  industries worldwide. From healthcare to finance, AI
+  systems automate tasks and provide insights. In
+  healthcare, AI diagnoses diseases earlier. In finance,
+  it detects fraud patterns. However, challenges include
+  data privacy, algorithmic bias, and regulatory needs.
+
+Bot Responds:
+
+  📝 Summary Generated
+  
+  AI transforms healthcare and finance through automation
+  but raises privacy, bias, and regulation challenges.
+  
+  📁 Saved to Google Drive: https://docs.google.com/...
+
+════════════════════════════════════════════════════════
+         VIEW YOUR SUMMARIES
+════════════════════════════════════════════════════════
+
+Portal Summaries Page:
+  http://localhost:3000/summaries
+  
+  • See all summaries
+  • Click Google Drive links
+  • View creation dates
+
+Google Drive:
+  https://drive.google.com
+  
+  • Find auto-created documents
+  • Edit if needed
+  • Share with team
+
+Dashboard Stats:
+  http://localhost:3000/dashboard
+  
+  • Total summaries generated
+  • Token usage
+  • Cost tracking
+
+════════════════════════════════════════════════════════
+         REQUIREMENTS
+════════════════════════════════════════════════════════
+
+Required:
+  ✅ Azure OpenAI configured (for AI summaries)
+
+Optional:
+  ✅ Google Workspace connected (to save to Drive)
+
+Without Google Drive:
+  • Summary still generated ✅
+  • Saved to database ✅
+  • Shown in portal ✅
+  • Just no Drive link
+
+════════════════════════════════════════════════════════
+         WHAT GETS TRACKED
+════════════════════════════════════════════════════════
+
+Every summary logs:
+  • Original content length
+  • Summary text
+  • Tokens used
+  • Processing time
+  • Google Drive link (if saved)
+  • Creation timestamp
+
+View in:
+  • Summaries page
+  • Admin Dashboard
+  • Admin Logs
+
+════════════════════════════════════════════════════════
+         TIPS
+════════════════════════════════════════════════════════
+
+Best Practices:
+  • Provide 100+ words for meaningful summaries
+  • Use clear, well-formatted text
+  • Give descriptive titles
+  • Check Summaries page to see all past summaries
+
+Typical Response Time:
+  • 2-5 seconds total
+  • AI processing: 1-3 seconds
+  • Drive upload: 1-2 seconds
+
+Cost:
+  • ~$0.002 per summary
+  • Tracked in dashboard
+
+════════════════════════════════════════════════════════
+         TROUBLESHOOTING
+════════════════════════════════════════════════════════
+
+"Azure AI not configured":
+  → Go to Settings → Configure Azure OpenAI
+
+"Please provide more content":
+  → Need at least 50 characters
+
+No Google Drive link:
+  → Google Workspace not connected
+  → Summary still created, just not saved to Drive
+  → Configure in Settings if needed
+
+════════════════════════════════════════════════════════
+
+✅ QUICK TEST:
+
+1. Messages → "Generate Summary"
+2. Paste any long text (100+ words)
+3. Click "Generate & Save to Drive"
+4. Get summary + Drive link in 3 seconds! 🎉
+
+════════════════════════════════════════════════════════
+
+For full details: See SUMMARY_FEATURE_GUIDE.md
+
+════════════════════════════════════════════════════════

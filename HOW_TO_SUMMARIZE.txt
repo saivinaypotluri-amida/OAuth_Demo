@@ -1,0 +1,114 @@
+════════════════════════════════════════════════════════
+    📝 HOW TO GENERATE SUMMARIES + SAVE TO GDRIVE
+════════════════════════════════════════════════════════
+
+EASIEST METHOD: WEB PORTAL
+════════════════════════════════════════════════════════
+
+1. Go to: http://localhost:3000/messages
+
+2. Click green "Generate Summary" button (top-right)
+
+3. Enter:
+   - Title: "My Summary" (optional)
+   - Content: Paste your long text (min 50 chars)
+
+4. Click "Generate & Save to Drive"
+
+5. Wait 3 seconds
+
+6. Done! ✅
+   - Summary shows on screen
+   - Saved to Google Drive
+   - Click link to open in Drive
+
+════════════════════════════════════════════════════════
+
+IN SLACK:
+════════════════════════════════════════════════════════
+
+Type in any channel:
+
+  summarize: [paste your long text here]
+
+Bot responds with summary + Google Drive link! 🎉
+
+Or use @mention:
+
+  @YourBot summarize: [your text]
+
+════════════════════════════════════════════════════════
+
+ALTERNATIVE SLACK KEYWORDS:
+════════════════════════════════════════════════════════
+
+  summary: [text]
+  tldr: [text]
+  tl;dr: [text]
+  summarise: [text]
+
+All work the same way!
+
+════════════════════════════════════════════════════════
+
+EXAMPLE:
+════════════════════════════════════════════════════════
+
+Slack:
+  
+  summarize: Our team meeting covered Q4 planning.
+  We discussed new feature priorities, including dark
+  mode and mobile app improvements. Sales targets were
+  set at 20% growth. Engineering will focus on
+  performance optimization. Marketing plans a new
+  campaign for product launch in November.
+
+Bot Response:
+
+  📝 Summary Generated
+  
+  Q4 plans include dark mode, mobile improvements, 20%
+  sales growth, performance optimization, and November
+  product launch campaign.
+  
+  📁 Saved to Google Drive: https://docs.google.com/...
+
+════════════════════════════════════════════════════════
+
+VIEW ALL SUMMARIES:
+════════════════════════════════════════════════════════
+
+Portal: http://localhost:3000/summaries
+
+See all your summaries + Drive links! 📁
+
+════════════════════════════════════════════════════════
+
+REQUIREMENTS:
+════════════════════════════════════════════════════════
+
+Must Have:
+  ✅ Azure OpenAI configured (Settings page)
+
+Nice to Have:
+  ✅ Google Workspace connected (for Drive saving)
+
+Without Drive:
+  • Summary still works! ✅
+  • Just no Drive link
+  • Still saved to database
+
+════════════════════════════════════════════════════════
+
+THAT'S IT! 🎉
+
+Try it now:
+1. Messages → "Generate Summary"
+2. Paste any text (100+ words)
+3. Get summary in 3 seconds!
+
+════════════════════════════════════════════════════════
+
+Full guide: SUMMARY_FEATURE_GUIDE.md
+
+════════════════════════════════════════════════════════
