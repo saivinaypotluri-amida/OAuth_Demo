@@ -157,18 +157,84 @@ async def handle_mention_event(db: Session, user_id: int, event: dict):
     agent = AgentService(db, user_id)
     
     try:
-        # Generate AI response
-        result = await agent.handle_slack_message(
-            message=text,
-            channel_id=channel,
-            slack_user_id=user,
-            message_ts=ts
-        )
+        # Check if user is requesting a summary
+        text_lower = text.lower()
+        is_summary_request = any(keyword in text_lower for keyword in [
+            "summarize", "summary", "summarise", "tldr", "tl;dr"
+        ])
         
-        if result.get("success"):
-            logger.info(f"Successfully responded to mention in channel {channel}")
+        if is_summary_request:
+            # Extract content to summarize
+            content = text
+            for keyword in ["summarize", "summary", "summarise", "tldr", "tl;dr"]:
+                if keyword in text_lower:
+                    parts = text.split(keyword, 1)
+                    if len(parts) > 1:
+                        content = parts[1].strip()
+                        if content.startswith(":"):
+                            content = content[1:].strip()
+                    break
+            
+            if len(content) < 50:
+                from services.slack_service import SlackService
+                from services.credential_service import CredentialService
+                slack_creds = await CredentialService.get_credential(db, user_id, "slack")
+                if slack_creds:
+                    slack = SlackService(
+                        bot_token=slack_creds.get("bot_token"),
+                        app_token=slack_creds.get("app_token"),
+                        signing_secret=slack_creds.get("signing_secret")
+                    )
+                    await slack.send_message(
+                        channel=channel,
+                        text="Please provide more content to summarize. Example: `@bot summarize: [your long text here]`"
+                    )
+                return
+            
+            # Generate summary
+            result = await agent.generate_summary(
+                title=f"Slack Summary - {channel}",
+                content=content,
+                save_to_drive=True
+            )
+            
+            if result.get("success"):
+                summary_text = result.get("summary")
+                drive_url = result.get("google_drive_file_url")
+                
+                from services.slack_service import SlackService
+                from services.credential_service import CredentialService
+                slack_creds = await CredentialService.get_credential(db, user_id, "slack")
+                if slack_creds:
+                    slack = SlackService(
+                        bot_token=slack_creds.get("bot_token"),
+                        app_token=slack_creds.get("app_token"),
+                        signing_secret=slack_creds.get("signing_secret")
+                    )
+                    
+                    response_text = f"📝 *Summary Generated*\n\n{summary_text}"
+                    if drive_url:
+                        response_text += f"\n\n📁 *Saved to Google Drive:* {drive_url}"
+                    
+                    await slack.send_message(
+                        channel=channel,
+                        text=response_text
+                    )
+                
+                logger.info(f"Successfully generated summary via mention in channel {channel}")
         else:
-            logger.error(f"Failed to respond to mention: {result.get('error')}")
+            # Regular mention - generate AI response
+            result = await agent.handle_slack_message(
+                message=text,
+                channel_id=channel,
+                slack_user_id=user,
+                message_ts=ts
+            )
+            
+            if result.get("success"):
+                logger.info(f"Successfully responded to mention in channel {channel}")
+            else:
+                logger.error(f"Failed to respond to mention: {result.get('error')}")
             
     except Exception as e:
         logger.error(f"Error handling mention: {e}", exc_info=True)
